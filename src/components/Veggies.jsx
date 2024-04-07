@@ -1,3 +1,90 @@
+
+
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Link } from "react-router-dom";
+
+function Veggies() {
+  const [veggie, setVeggie] = useState([]);
+
+  useEffect(() => {
+    getVeggie();
+  }, []);
+
+  const getVeggie = async () => {
+    try {
+      const check = localStorage.getItem("veggie");
+
+      if (check) {
+        setVeggie(JSON.parse(check));
+      } else {
+        const apiKey = process.env.REACT_APP_API_KEY;
+        const apiUrl = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=6&tags=vegetarian`;
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem("veggie", JSON.stringify(data.recipes.slice(0, 6))); // Limit to 6 recipes
+        setVeggie(data.recipes.slice(0, 6)); // Limit to 6 recipes
+        console.log(data.recipes);
+      }
+    } catch (error) {
+      console.error('Error in getVeggie:', error);
+      // Handle the error (e.g., show a user-friendly message or log it)
+    }
+  };
+
+  return (
+    <Wrapper>
+      <h3>Our Vegetarian Picks</h3>
+      <Grid>
+        {veggie.map((recipe) => (
+          <Card key={recipe.id}>
+            <Link to={"/recipe/" + recipe.id}>
+              <img src={recipe.image} alt={recipe.title} />
+              <h4>{recipe.title}</h4>
+            </Link>
+          </Card>
+        ))}
+      </Grid>
+    </Wrapper>
+  );
+}
+
+const Wrapper = styled.div`
+  margin: 4rem 0rem;
+  h3 {
+    font-size: 30px;
+  }
+`;
+
+const Grid = styled.div`
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 2fr));
+  grid-gap: 2rem;
+`;
+
+const Card = styled.div`
+  img {
+    width: 100%;
+    border-radius: 2rem;
+  }
+
+  h4 {
+    text-align: center;
+    padding: 0rem;
+  }
+`;
+
+export default Veggies;
+
+
 // import React from 'react'
 // import { useState, useEffect } from 'react';
 // import styled from 'styled-components';
@@ -118,87 +205,3 @@
 // `;
 
 // export default Veggies
-
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { Link } from "react-router-dom";
-
-function Veggies() {
-  const [veggie, setVeggie] = useState([]);
-
-  useEffect(() => {
-    getVeggie();
-  }, []);
-
-  const getVeggie = async () => {
-    try {
-      const check = localStorage.getItem("veggie");
-
-      if (check) {
-        setVeggie(JSON.parse(check));
-      } else {
-        const apiKey = process.env.REACT_APP_API_KEY;
-        const apiUrl = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=6&tags=vegetarian`;
-
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data. Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        localStorage.setItem("veggie", JSON.stringify(data.recipes.slice(0, 6))); // Limit to 6 recipes
-        setVeggie(data.recipes.slice(0, 6)); // Limit to 6 recipes
-        console.log(data.recipes);
-      }
-    } catch (error) {
-      console.error('Error in getVeggie:', error);
-      // Handle the error (e.g., show a user-friendly message or log it)
-    }
-  };
-
-  return (
-    <Wrapper>
-      <h3>Our Vegetarian Picks</h3>
-      <Grid>
-        {veggie.map((recipe) => (
-          <Card key={recipe.id}>
-            <Link to={"/recipe/" + recipe.id}>
-              <img src={recipe.image} alt={recipe.title} />
-              <h4>{recipe.title}</h4>
-            </Link>
-          </Card>
-        ))}
-      </Grid>
-    </Wrapper>
-  );
-}
-
-const Wrapper = styled.div`
-  margin: 4rem 0rem;
-  h3 {
-    font-size: 30px;
-  }
-`;
-
-const Grid = styled.div`
-  margin-top: 15px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 2fr));
-  grid-gap: 2rem;
-`;
-
-const Card = styled.div`
-  img {
-    width: 100%;
-    border-radius: 2rem;
-  }
-
-  h4 {
-    text-align: center;
-    padding: 0rem;
-  }
-`;
-
-export default Veggies;
