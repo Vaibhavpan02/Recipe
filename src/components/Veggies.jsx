@@ -1,120 +1,204 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import {Splide,SplideSlide} from '@splidejs/react-splide';
-import '@splidejs/splide/dist/css/splide.min.css';
-import {Link} from "react-router-dom";
-function Veggies() {
-  const [veggie,setVeggie]=useState([]);
+// import React from 'react'
+// import { useState, useEffect } from 'react';
+// import styled from 'styled-components';
+// import {Splide,SplideSlide} from '@splidejs/react-splide';
+// import '@splidejs/splide/dist/css/splide.min.css';
+// import {Link} from "react-router-dom";
+// function Veggies() {
+//   const [veggie,setVeggie]=useState([]);
 
 
-    useEffect(()=>{
-        getVeggie();
-    },[]);
+//     useEffect(()=>{
+//         getVeggie();
+//     },[]);
 
-    const getVeggie = async () => {
-      try {
-          const check = localStorage.getItem("veggie");
+//     const getVeggie = async () => {
+//       try {
+//           const check = localStorage.getItem("veggie");
   
-          if (check) {
-              setVeggie(JSON.parse(check));
-          } else {
-            const apiKey = process.env.REACT_APP_API_KEY;
-              const apiUrl = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=16&tags=vegetarian`;
+//           if (check) {
+//               setVeggie(JSON.parse(check));
+//           } else {
+//             const apiKey = process.env.REACT_APP_API_KEY;
+//               const apiUrl = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=16&tags=vegetarian`;
   
-              const response = await fetch(apiUrl);
+//               const response = await fetch(apiUrl);
   
-              if (!response.ok) {
-                  throw new Error(`Failed to fetch data. Status: ${response.status}`);
-              }
+//               if (!response.ok) {
+//                   throw new Error(`Failed to fetch data. Status: ${response.status}`);
+//               }
   
-              const data = await response.json();
+//               const data = await response.json();
   
-              localStorage.setItem("veggie", JSON.stringify(data.recipes));
-              setVeggie(data.recipes);
-              console.log(data.recipes);
-          }
-      } catch (error) {
-          console.error('Error in getVeggie:', error);
-          // Handle the error (e.g., show a user-friendly message or log it)
-      }
-  };
+//               localStorage.setItem("veggie", JSON.stringify(data.recipes));
+//               setVeggie(data.recipes);
+//               console.log(data.recipes);
+//           }
+//       } catch (error) {
+//           console.error('Error in getVeggie:', error);
+//           // Handle the error (e.g., show a user-friendly message or log it)
+//       }
+//   };
   
-  return (
-    <div>
+//   return (
+//     <div>
        
-         <Wrapper>
-          <h3>Our Vegetarian Picks</h3>
-<Splide options={{
-  perPage:3,
-  arrows:false,
-  pagination:false,
-  drag:"free",
-  gap:"5rem",
-}}>
-          {veggie.map((recipe)=>{
-            return(
-              <SplideSlide key={recipe.id}>
-              <Card>
-                <Link to={"/recipe/" + recipe.id}>
-                <p> {recipe.title}</p>
-                <img src={recipe.image} alt={recipe.title}/>
-                <Gradient/>
-                </Link>
-              </Card>
-              </SplideSlide>
-            );
-          })}
-          </Splide>
-         </Wrapper>
+//          <Wrapper>
+//           <h3>Our Vegetarian Picks</h3>
+// <Splide options={{
+//   perPage:3,
+//   arrows:false,
+//   pagination:false,
+//   drag:"free",
+//   gap:"5rem",
+// }}>
+//           {veggie.map((recipe)=>{
+//             return(
+//               <SplideSlide key={recipe.id}>
+//               <Card>
+//                 <Link to={"/recipe/" + recipe.id}>
+//                 <p> {recipe.title}</p>
+//                 <img src={recipe.image} alt={recipe.title}/>
+//                 <Gradient/>
+//                 </Link>
+//               </Card>
+//               </SplideSlide>
+//             );
+//           })}
+//           </Splide>
+//          </Wrapper>
            
         
-        </div>
-  )
-}
-const Wrapper=styled.div`
-margin:4rem 0rem;`;
+//         </div>
+//   )
+// }
+// const Wrapper=styled.div`
+// margin:4rem 0rem;`;
 
-const Card=styled.div`
-min-height:18rem;
-border-radius:2rem;
-overflow:hidden;
-position:relative;
+// const Card=styled.div`
+// min-height:18rem;
+// border-radius:2rem;
+// overflow:hidden;
+// position:relative;
 
-img{
-border-radius: 2rem;
-position:absolute;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
+// img{
+// border-radius: 2rem;
+// position:absolute;
+// left:0;
+// width:100%;
+// height:100%;
+// object-fit:cover;
 
+// }
+// p{
+//   position:absolute;
+//   z-index:10;
+//   left:50%;
+//   bottom:0%;
+//   transform:translate(-50%,0%);
+//   color:white;
+//   width:100%;
+//   text-align:center;
+//   font-weight:600;
+//   font-size:1rem;
+//   height:40%;
+//   display:flex;
+//   justify-content:center;
+//   align-items:center;
+// }
+// `;
+// const Gradient=styled.div`
+//   z-index:3;
+//   position:absolute;
+//   width:100%;
+//   height:100%;
+//   background:linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
+
+
+// `;
+
+// export default Veggies
+
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Link } from "react-router-dom";
+
+function Veggies() {
+  const [veggie, setVeggie] = useState([]);
+
+  useEffect(() => {
+    getVeggie();
+  }, []);
+
+  const getVeggie = async () => {
+    try {
+      const check = localStorage.getItem("veggie");
+
+      if (check) {
+        setVeggie(JSON.parse(check));
+      } else {
+        const apiKey = process.env.REACT_APP_API_KEY;
+        const apiUrl = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=6&tags=vegetarian`;
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem("veggie", JSON.stringify(data.recipes.slice(0, 6))); // Limit to 6 recipes
+        setVeggie(data.recipes.slice(0, 6)); // Limit to 6 recipes
+        console.log(data.recipes);
+      }
+    } catch (error) {
+      console.error('Error in getVeggie:', error);
+      // Handle the error (e.g., show a user-friendly message or log it)
+    }
+  };
+
+  return (
+    <Wrapper>
+      <h3>Our Vegetarian Picks</h3>
+      <Grid>
+        {veggie.map((recipe) => (
+          <Card key={recipe.id}>
+            <Link to={"/recipe/" + recipe.id}>
+              <img src={recipe.image} alt={recipe.title} />
+              <h4>{recipe.title}</h4>
+            </Link>
+          </Card>
+        ))}
+      </Grid>
+    </Wrapper>
+  );
 }
-p{
-  position:absolute;
-  z-index:10;
-  left:50%;
-  bottom:0%;
-  transform:translate(-50%,0%);
-  color:white;
-  width:100%;
-  text-align:center;
-  font-weight:600;
-  font-size:1rem;
-  height:40%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+
+const Wrapper = styled.div`
+  margin: 4rem 0rem;
+  h3 {
+    font-size: 30px;
+  }
 `;
-const Gradient=styled.div`
-  z-index:3;
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
 
-
+const Grid = styled.div`
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 2fr));
+  grid-gap: 2rem;
 `;
 
-export default Veggies
+const Card = styled.div`
+  img {
+    width: 100%;
+    border-radius: 2rem;
+  }
+
+  h4 {
+    text-align: center;
+    padding: 0rem;
+  }
+`;
+
+export default Veggies;
