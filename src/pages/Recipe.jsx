@@ -8,7 +8,7 @@ function Recipe() {
     const [activeTab, setActiveTab] = useState('instructions');
 
     const fetchDetails = useCallback(async () => {
-        const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=e11956ddb9b7411282fe789b241b4aab`);
+        const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${process.env.REACT_APP_API_KEY}`);
         const detailData = await data.json();
         setDetails(detailData);
     }, [params.name]);
@@ -50,8 +50,14 @@ const DetailWrapper = styled.div`
     margin-top: 4rem;
     margin-bottom: 2rem;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
+
+    @media(min-width: 768px) {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+    }
 `;
 
 const ImageContainer = styled.div`
@@ -61,33 +67,38 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
     border-radius: 8px;
     margin-bottom: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
     color: #333;
+
+    @media(min-width: 768px) {
+        font-size: 2rem;
+    }
 `;
 
 const Button = styled.button`
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     margin-bottom: 1rem;
     color: #313131;
     background: white;
     border: 2px solid black;
-    margin-right: 2rem;
+    margin-right: 1rem;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     outline: none;
     transition: all 0.3s ease;
-    
+
     &:hover {
         background: linear-gradient(35deg, #494949, #313131);
         color: white;
@@ -97,19 +108,35 @@ const Button = styled.button`
         background: linear-gradient(35deg, #494949, #313131);
         color: white;
     }
+
+    @media(min-width: 768px) {
+        padding: 1rem 2rem;
+        font-size: 16px;
+    }
 `;
 
 const Info = styled.div`
-    margin-left: 2rem;
+    width: 100%;
     background-color: #f9f9f9;
     padding: 1rem;
     border-radius: 8px;
+
+    @media(min-width: 768px) {
+        margin-left: 2rem;
+        width: auto;
+    }
 `;
 
 const InstructionContainer = styled.div`
     margin-top: 1rem;
+
     h3 {
         margin-bottom: 1rem;
+        font-size: 0.9rem; /* Smaller font size for instructions */
+
+        @media(min-width: 768px) {
+            font-size: 1rem;
+        }
     }
     
     ul {
@@ -118,8 +145,22 @@ const InstructionContainer = styled.div`
     }
 
     li {
-        font-size: 1rem;
-        line-height: 1.5rem;
+        font-size: 0.8rem; /* Smaller font size for ingredients */
+        line-height: 1.2rem;
+
+        @media(min-width: 768px) {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media(min-width: 768px) {
+        h3 {
+            font-size: 1rem;
+        }
+
+        li {
+            font-size: 0.9rem;
+        }
     }
 `;
 
