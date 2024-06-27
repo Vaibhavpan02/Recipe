@@ -35,6 +35,7 @@ function Cuisine() {
 }
 
 const Grid = styled.div`
+margin-top: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   grid-gap: 2rem;
