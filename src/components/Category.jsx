@@ -89,7 +89,7 @@ const SLink = styled(NavLink)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  border-radius: 16px;
   margin: 1rem;
   text-decoration: none;
   background: linear-gradient(35deg, #494949, #313131);
