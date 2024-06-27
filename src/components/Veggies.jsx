@@ -57,7 +57,7 @@ function Veggies() {
 }
 
 const Wrapper = styled.div`
-  margin: 4rem 0rem;
+  margin: 2rem 0rem;
   h3 {
     font-size: 30px;
   }
